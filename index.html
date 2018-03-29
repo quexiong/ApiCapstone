@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Marvel API Hack</title>
+    <link href="index.css" rel="stylesheet" type="text/css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.10.0/js/md5.js"></script>
+  </head>
+
+  <body>
+  	<header role="banner">
+  		<h1>Marvel Comic Finder</h1>
+  	</header>
+
+    <main role="main">
+    	<form class="searchForm">
+        	<input type="text" class="searchBar">
+        	<div>
+        		<button type="submit" id="submitButton">Search</button>
+        		<button type="submit" id="submitButtonRandom">Random Search</button>
+        	</div>
+      	</form>
+
+     	<h2 id="resultsTitle"></h2>
+
+      	<div class="thumbnailContainer">
+      	</div>
+
+      	<div class="descriptionContainer">
+      		<p class="characterDescription"></p>
+      	</div>
+
+      	<div class="comicsContainer">
+      	</div>
+
+      	<div>
+      		<button type="submit" id="newSearchButton">New Search</button>      	
+      	</div>
+    </main>
+
+    <script src="index.js"></script>
+  </body>
+</html>

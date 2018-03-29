@@ -1,0 +1,18 @@
+body{
+	text-align: center;
+}
+
+#newSearchButton{
+	display: none;
+	margin: 0 auto;
+}
+
+.descriptionContainer, .thumbnailContainer, .comicsContainer{
+	display: none;
+	border:2px solid black;
+}
+
+.comicTitle{
+	border:2px solid red;
+	text-align: center;
+}
