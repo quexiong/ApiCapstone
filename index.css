@@ -1,5 +1,26 @@
+html{
+	height: 100%;
+}
 body{
+	background: url("https://images5.alphacoders.com/659/thumb-1920-659840.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
 	text-align: center;
+	height: 100%;
+}
+
+header{
+	width: 100%;
+	background-color: #e8e8e8;
+	opacity: .875;
+}
+#homeTitle{
+	font-size: 80px;
+	/*Marvel Logo Red*/
+	color: #f0141e; 
+	display: block;
+	text-shadow: 3px 3px 3px #636363;
 }
 
 #newSearchButton{
@@ -9,10 +30,46 @@ body{
 
 .descriptionContainer, .thumbnailContainer, .comicsContainer{
 	display: none;
-	border:2px solid black;
+	/*border:2px solid black;*/
 }
 
 .comicTitle{
 	border:2px solid red;
 	text-align: center;
+}
+
+.searchBar{
+	width: 100%;
+	height: 25%;
+	font-size: 30px;
+	margin: auto;
+	background-color: #e8e8e8;
+	opacity: .875;
+	color: #f0141e;
+	text-align: center;
+}
+
+#submitButton, #submitButtonRandom{
+	width: 100%;
+	height: 25%;
+	font-size: 16px;
+	background-color: #e8e8e8;
+	opacity: .95;
+	color: #f0141e;
+	text-shadow: 1px 1px 1px #636363;
+}
+
+::placeholder{
+	color: #f0141e;
+	text-align: center;
+}
+
+.coverImg{
+	width: 100%;
+	height: 100%;
+}
+
+.comicTitle, .comicDescription, .comicCoverImg{
+	text-align: left;
+	padding: 5px 15px;
 }

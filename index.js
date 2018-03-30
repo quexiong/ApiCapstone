@@ -18,6 +18,8 @@ function submitButton(){
     	$('.thumbnailContainer').css('display', 'block');
     	$('.descriptionContainer').css('display', 'block');
     	$('.comicsContainer').css('display', 'block');
+    	$('body').css('background-image', 'url("")');
+    	$('#homeTitle').css('display', 'none');
   });
 }
 
@@ -32,6 +34,8 @@ function submitButtonRandom(){
     	$('.thumbnailContainer').css('display', 'block');
     	$('.descriptionContainer').css('display', 'block');
     	$('.comicsContainer').css('display', 'block');
+    	$('body').css('background-image', 'url("")');
+    	$('#homeTitle').css('display', 'none');
   });
 }
 
@@ -51,6 +55,8 @@ function newSearch(){
 		$('.thumbnailContainer').css('display', 'none');
 		$('.descriptionContainer').css('display', 'none');
     	$('.comicsContainer').css('display', 'none');
+    	$('body').css('background-image', 'url("https://images5.alphacoders.com/659/thumb-1920-659840.jpg")');
+    	$('#homeTitle').css('display', 'block');
 
 	});
 }
@@ -97,19 +103,20 @@ function getAPIData_Comics(characterID, callback){
 // this function handles displaying character data
 // if the user searches for a specific character
 function displayAPIData_Chars(data){
+	let characterName = data.data.results[0].name;
 	let description = data.data.results[0].description;
 	let imgPath = data.data.results[0].thumbnail.path + "/standard_xlarge." + data.data.results[0].thumbnail.extension;
 	let output = '<img src="' + imgPath + '">';
 	characterID = data.data.results[0].id;
 
 	if(description === ""){
-		$('#resultsTitle').append(data.data.results[0].name);
+		$('#resultsTitle').append(characterName);
 		$('.thumbnailContainer').append(output);
 		let noDescription = "Marvel does not provide a description for this character.";
 		$('.characterDescription').append(noDescription);
 	}
 	else{
-		$('#resultsTitle').append(data.data.results[0].name);
+		$('#resultsTitle').append(characterName);
 		$('.thumbnailContainer').append(output);
 		$('.characterDescription').append(description);
 	}
@@ -129,6 +136,10 @@ function displayAPIData_Chars_Random(data){
 	let output = '<img src="' + imgPath + '">';
 	characterID = randomCharacter.id;
 
+// Some characters in the Marvel database do not come with descriptions
+// so, if they don't have one, I need to display some generic
+// message to let the user know there is no description, otherwise, if
+// there is a description, then display that description
 	if(description === ""){
 		$('#resultsTitle').append(randomCharacter.name);
 		$('.thumbnailContainer').append(output);
@@ -140,7 +151,9 @@ function displayAPIData_Chars_Random(data){
 		$('.thumbnailContainer').append(output);
 		$('.characterDescription').append(description);
 	}
-	
+
+// After character data is retrieved, then app should also retrieve
+// the comic book data	
 	getAPIData_Comics(characterID, displayAPIData_Comics);
 }
 
@@ -162,8 +175,9 @@ function displayAPIData_Comics(data){
 		$('.comicsContainer').append(noComics);
 	}
 	
-	if(comicArray.length > 5){
-		for(let i = 0; i < 5; i++){
+	// something is wrong with this if-loop -- use Doctor Faustus as example
+	if(comicArray.length > 4){
+		for(let i = 0; i < 4; i++){
 			if(selectedNumbers.forEach(function(element){}) !== randomNum){
 				selectedNumbers.push(randomComicNumber(comicArray));
 			}
@@ -173,25 +187,78 @@ function displayAPIData_Comics(data){
 		}
 		for(let i = 0; i < selectedNumbers.length; i++){
 			let comic = comicArray[selectedNumbers[i]];
-			let comicTitle = '<div class="comicTitle">' + comic.title + '</div>';
+			let comicDescription = comic.description;
+			console.log(comicDescription);
+			let comicTitle = '<h3>' + comic.title + '</h3>';
 			let comicCover = comic.thumbnail.path + "/standard_xlarge." + comic.thumbnail.extension;
 			let link = comic.urls[0].url; 
 			let output = '<a href="' + link + '" target="_blank"> <img class="coverImg" src="' + comicCover + '"></a>';
+			//let comicOutput = '<div class="col-6">' + comicTitle + output + '</div>'
+			if(comicDescription === "" || comicDescription === null){
+				let noComicDescription = "Marvel does not provide a description for this Comic";
+				let comic_template = 
+					'<div class="row">' +
+						'<div class="comicTitle">' + comicTitle + '</div>' +
+						'<div class="row">' +
+							'<div class="comicCoverImg col-3">' + output + '</div>' +
+							'<div class="comicDescription col-9">' + noComicDescription + '</div>' +
+						'</div>' + 	
+					'</div>';
 			
-			$('.comicsContainer').append(comicTitle, output);
+			$('.comicsContainer').append(comic_template);
+			}
+			else{
+				let comic_template = 
+					'<div class="row">' +
+						'<div class="comicTitle">' + comicTitle + '</div>' +
+						'<div class="row">' +
+							'<div class="comicCoverImg col-3">' + output + '</div>' +
+							'<div class="comicDescription col-9">' + comicDescription + '</div>' +
+						'</div>' + 	
+					'</div>';
+			
+					$('.comicsContainer').append(comic_template);
+			}
 		}
 	}
 
 	else{
 		comicArray.forEach(function(element){
-			let comicTitle = '<div class="comicTitle">' + element.title + '</div>';
+			let comicTitle = '<h3>' + element.title + '</h3>';
+			let comicDescription = element.description;
 			let comicCover = element.thumbnail.path + "/standard_xlarge." + element.thumbnail.extension;
 			let link = element.urls[0].url; 
 			let output = '<a href="' + link + '" target="_blank"> <img class="coverImg" src="' + comicCover + '"></a>';
 			
-			$('.comicsContainer').append(comicTitle, output);
+			if(comicDescription === "" || comicDescription === null){
+				let noComicDescription = "Marvel does not provide a description for this Comic";
+				let comic_template = 
+					'<div class="row">' +
+						'<div class="comicTitle">' + comicTitle + '</div>' +
+						'<div class="row">' +
+							'<div class="comicCoverImg col-3">' + output + '</div>' +
+							'<div class="comicDescription col-9">' + noComicDescription + '</div>' +
+						'</div>' + 	
+					'</div>';
+			
+			$('.comicsContainer').append(comic_template);
+			}
+			else{
+				let comic_template = 
+					'<div class="row">' +
+						'<div class="comicTitle">' + comicTitle + '</div>' +
+						'<div class="row">' +
+							'<div class="comicCoverImg col-3">' + output + '</div>' +
+							'<div class="comicDescription col-9">' + comicDescription + '</div>' +
+						'</div>' + 	
+					'</div>';
+			
+					$('.comicsContainer').append(comic_template);
+			}
 		});
 	}
+	//console.log(comicArray);
+	//console.log(selectedNumbers);
 }
 
 function randomChar(){

@@ -11,35 +11,51 @@
   </head>
 
   <body>
-  	<header role="banner">
-  		<h1>Marvel Comic Finder</h1>
-  	</header>
+    <header role="banner">
+      <h1 id="homeTitle">Marvel Comic Finder</h1>
+    </header>
 
     <main role="main">
-    	<form class="searchForm">
-        	<input type="text" class="searchBar">
-        	<div>
-        		<button type="submit" id="submitButton">Search</button>
-        		<button type="submit" id="submitButtonRandom">Random Search</button>
-        	</div>
-      	</form>
+      <form class="searchForm">
+        <div class="row">
+          <input type="text" class="searchBar col-12" placeholder="ex. Spider-Man">
+        </div>
 
-     	<h2 id="resultsTitle"></h2>
+        <div class="row">
+            <div class="col-6">
+              <button type="submit" id="submitButton">SEARCH</button>
+            </div>
+            <div class="col-6">
+              <button type="submit" id="submitButtonRandom">RANDOM</button>
+            </div>
+          </div>
 
-      	<div class="thumbnailContainer">
-      	</div>
-
-      	<div class="descriptionContainer">
-      		<p class="characterDescription"></p>
-      	</div>
-
-      	<div class="comicsContainer">
-      	</div>
-
-      	<div>
-      		<button type="submit" id="newSearchButton">New Search</button>      	
-      	</div>
+        </form>
     </main>
+
+    <section role="region" id="characterInfo">
+      <h2 id="resultsTitle"></h2>
+
+        <div class="thumbnailContainer">
+        </div>
+
+        <div class="descriptionContainer">
+          <p class="characterDescription"></p>
+        </div>    
+    </section>
+
+    <section role="region" id="comicsInfo">
+      <div class="row">
+        <div class="comicsContainer">
+          </div>  
+      </div>
+    </section>
+
+    <section role="region" id="restart">
+        <div>
+          <button type="submit" id="newSearchButton">New Search</button>        
+        </div>    
+    </section>
 
     <script src="index.js"></script>
   </body>
