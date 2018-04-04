@@ -103,25 +103,34 @@ function getAPIData_Comics(characterID, callback){
 // this function handles displaying character data
 // if the user searches for a specific character
 function displayAPIData_Chars(data){
-	let characterName = data.data.results[0].name;
-	let description = data.data.results[0].description;
-	let imgPath = data.data.results[0].thumbnail.path + "/standard_xlarge." + data.data.results[0].thumbnail.extension;
-	let output = '<img src="' + imgPath + '">';
-	characterID = data.data.results[0].id;
+	try{
+		let characterName = data.data.results[0].name;
+		let description = data.data.results[0].description;
+		let imgPath = data.data.results[0].thumbnail.path + "/standard_xlarge." + data.data.results[0].thumbnail.extension;
+		let output = '<img src="' + imgPath + '">';
+		characterID = data.data.results[0].id;
 
-	if(description === ""){
-		$('#resultsTitle').append(characterName);
-		$('.thumbnailContainer').append(output);
-		let noDescription = "Marvel does not provide a description for this character.";
-		$('.characterDescription').append(noDescription);
+		if(description === ""){
+			$('#resultsTitle').append(characterName);
+			$('.thumbnailContainer').append(output);
+			let noDescription = "Marvel does not provide a description for this character.";
+			$('.characterDescription').append(noDescription);
+		}
+		else{
+			$('#resultsTitle').append(characterName);
+			$('.thumbnailContainer').append(output);
+			$('.characterDescription').append(description);
+		}
+		getAPIData_Comics(characterID, displayAPIData_Comics);
 	}
-	else{
-		$('#resultsTitle').append(characterName);
-		$('.thumbnailContainer').append(output);
-		$('.characterDescription').append(description);
+
+	catch(e){
+		if(e instanceof TypeError){
+			console.log("type error");
+		}
 	}
-	getAPIData_Comics(characterID, displayAPIData_Comics);
 }
+
 
 // this function handles displaying character data
 // if the user searches for a random character
