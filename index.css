@@ -2,7 +2,7 @@ html{
 	height: 100%;
 }
 body{
-	background: url("https://images5.alphacoders.com/659/thumb-1920-659840.jpg");
+	background: url("http://data.1freewallpapers.com/download/avengers.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
@@ -16,7 +16,7 @@ header{
 	opacity: .875;
 }
 #homeTitle{
-	font-size: 80px;
+	font-size: 60px;
 	/*Marvel Logo Red*/
 	color: #f0141e; 
 	display: block;

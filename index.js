@@ -55,7 +55,7 @@ function newSearch(){
 		$('.thumbnailContainer').css('display', 'none');
 		$('.descriptionContainer').css('display', 'none');
     	$('.comicsContainer').css('display', 'none');
-    	$('body').css('background-image', 'url("https://images5.alphacoders.com/659/thumb-1920-659840.jpg")');
+    	$('body').css('background-image', 'url("http://data.1freewallpapers.com/download/avengers.jpg")');
     	$('#homeTitle').css('display', 'block');
 
 	});
@@ -133,14 +133,11 @@ function displayAPIData_Chars(data){
 	}
 }
 
-
 // this function handles displaying character data
 // if the user searches for a random character
 function displayAPIData_Chars_Random(data){
 	let randomCharacterArray = data.data.results;
 	var randomCharacter = randomCharacterArray[Math.floor(Math.random()*randomCharacterArray.length)];
-	//console.log(randomCharacterArray);
-	//console.log(randomCharacter);
 
 	let description = randomCharacter.description;
 	let imgPath = randomCharacter.thumbnail.path + "/standard_xlarge." + randomCharacter.thumbnail.extension;
@@ -171,7 +168,7 @@ function displayAPIData_Chars_Random(data){
 // this function handles displaying comic data
 function displayAPIData_Comics(data){
 	let comicArray = data.data.results;
-	//console.log(comicArray);
+	console.log(comicArray);
 	let selectedNumbers = [];
 	let randomNum;
 	let noComics = "Marvel does not provide comic book data for this character."
@@ -199,7 +196,8 @@ function displayAPIData_Comics(data){
 		for(let i = 0; i < selectedNumbers.length; i++){
 			let comic = comicArray[selectedNumbers[i]];
 			let comicDescription = comic.description;
-			console.log(comicDescription);
+			let price = comic.prices;
+			console.log(price);
 			let comicTitle = '<h3>' + comic.title + '</h3>';
 			let comicCover = comic.thumbnail.path + "/standard_xlarge." + comic.thumbnail.extension;
 			let link = comic.urls[0].url; 
