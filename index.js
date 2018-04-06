@@ -57,7 +57,6 @@ function newSearch(){
     	$('.comicsContainer').css('display', 'none');
     	$('body').css('background-image', 'url("http://data.1freewallpapers.com/download/avengers.jpg")');
     	$('#homeTitle').css('display', 'block');
-
 	});
 }
 
@@ -266,8 +265,6 @@ function displayAPIData_Comics(data){
 			}
 		});
 	}
-	//console.log(comicArray);
-	//console.log(selectedNumbers);
 }
 
 function randomChar(){
