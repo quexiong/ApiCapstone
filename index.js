@@ -15,11 +15,13 @@ function submitButton(){
     	getAPIData_Characters(query, displayAPIData_Chars);
     	$('.searchForm').hide();
     	$('#newSearchButton').css('display', 'block');
-    	$('.thumbnailContainer').css('display', 'block');
-    	$('.descriptionContainer').css('display', 'block');
+    	$('.characterContainer').css('display', 'block');
     	$('.comicsContainer').css('display', 'block');
     	$('body').css('background-image', 'url("")');
     	$('#homeTitle').css('display', 'none');
+    	$('#instructions').css('display', 'none');
+    	$('body').css('background-image', 'url("https://c1.staticflickr.com/4/3776/9516794291_defacaaa13_b.jpg")');
+    	$('body').css('background-repeat', 'repeat');
   });
 }
 
@@ -31,11 +33,11 @@ function submitButtonRandom(){
     	getAPIData_Characters_Random(randomLetter, displayAPIData_Chars_Random);
     	$('.searchForm').hide();
     	$('#newSearchButton').css('display', 'block');
-    	$('.thumbnailContainer').css('display', 'block');
-    	$('.descriptionContainer').css('display', 'block');
+    	$('.characterContainer').css('display', 'block');
     	$('.comicsContainer').css('display', 'block');
     	$('body').css('background-image', 'url("")');
     	$('#homeTitle').css('display', 'none');
+    	$('#instructions').css('display', 'none');
   });
 }
 
@@ -47,16 +49,16 @@ function newSearch(){
 	$('#newSearchButton').on('click', function(event){
 		event.preventDefault();
 		$('.searchForm').show();
-		$('.thumbnailContainer').empty();
-		$('.characterDescription').empty();
+		$('.characterContainer').empty();
 		$('.comicsContainer').empty();
 		$('#resultsTitle').empty();
 		$('#newSearchButton').css('display', 'none');
-		$('.thumbnailContainer').css('display', 'none');
-		$('.descriptionContainer').css('display', 'none');
+    	$('.characterContainer').css('display', 'none');		
     	$('.comicsContainer').css('display', 'none');
     	$('body').css('background-image', 'url("http://data.1freewallpapers.com/download/avengers.jpg")');
     	$('#homeTitle').css('display', 'block');
+    	$('#instructions').css('display', 'block');
+    	$('.errorMessage').css('display', 'none');
 	});
 }
 
@@ -105,29 +107,40 @@ function displayAPIData_Chars(data){
 	try{
 		let characterName = data.data.results[0].name;
 		let description = data.data.results[0].description;
-		let imgPath = data.data.results[0].thumbnail.path + "/standard_xlarge." + data.data.results[0].thumbnail.extension;
-		let output = '<img src="' + imgPath + '">';
+		let imgPath = data.data.results[0].thumbnail.path + "/standard_large." + data.data.results[0].thumbnail.extension;
+		let output = '<img class="characterThumbnail" src="' + imgPath + '">';
 		characterID = data.data.results[0].id;
+		let character_template = 
+			'<div class="row">' +
+				'<div class="characterName"><h2>' + characterName + '</h2></div>' +
+				'<div class="row">' +
+					'<div class="characterImg col-3">' + output + '</div>' +
+					'<div class="characterDescription col-9">' + description + '</div>' +
+				'</div>' + 	
+			'</div>';
 
 		if(description === ""){
-			$('#resultsTitle').append(characterName);
-			$('.thumbnailContainer').append(output);
 			let noDescription = "Marvel does not provide a description for this character.";
-			$('.characterDescription').append(noDescription);
+			character_template = 
+				'<div class="row">' +
+					'<div class="characterName"><h2>' + characterName + '</h2></div>' +
+					'<div class="row">' +
+						'<div class="characterImg col-3">' + output + '</div>' +
+						'<div class="characterDescription col-9">' + noDescription + '</div>' +
+					'</div>' + 	
+				'</div>';
+			$('.characterContainer').append(character_template);
 		}
 		else{
-			$('#resultsTitle').append(characterName);
-			$('.thumbnailContainer').append(output);
-			$('.characterDescription').append(description);
+			$('.characterContainer').append(character_template);
 		}
 		getAPIData_Comics(characterID, displayAPIData_Comics);
 	}
 
 	catch(e){
 		if(e instanceof TypeError){
-			let errorMessage = '<div class="errorMessage col-12"><p>Invalid Character/Character Does Not Exist.</p> <p>Click on New Search to restart.</p></div>';
+			let errorMessage = '<div class="errorMessage"><p>Invalid Character/Character Does Not Exist.</p> <p>Click on New Search to restart.</p></div>';
 			$('#restart').append(errorMessage);
-			console.log("type error");
 		}
 	}
 }
@@ -137,26 +150,39 @@ function displayAPIData_Chars(data){
 function displayAPIData_Chars_Random(data){
 	let randomCharacterArray = data.data.results;
 	var randomCharacter = randomCharacterArray[Math.floor(Math.random()*randomCharacterArray.length)];
-
+	let randomCharacterName = randomCharacter.name;
 	let description = randomCharacter.description;
-	let imgPath = randomCharacter.thumbnail.path + "/standard_xlarge." + randomCharacter.thumbnail.extension;
-	let output = '<img src="' + imgPath + '">';
+	let imgPath = randomCharacter.thumbnail.path + "/standard_large." + randomCharacter.thumbnail.extension;
+	let output = '<img class="characterThumbnail" src="' + imgPath + '">';
 	characterID = randomCharacter.id;
+
+	let character_template = 
+		'<div class="row">' +
+			'<div class="characterName"><h3>' + randomCharacterName + '</h3></div>' +
+			'<div class="row">' +
+				'<div class="characterImg col-3">' + output + '</div>' +
+				'<div class="characterDescription col-9">' + description + '</div>' +
+			'</div>' + 	
+		'</div>';
 
 // Some characters in the Marvel database do not come with descriptions
 // so, if they don't have one, I need to display some generic
 // message to let the user know there is no description, otherwise, if
 // there is a description, then display that description
 	if(description === ""){
-		$('#resultsTitle').append(randomCharacter.name);
-		$('.thumbnailContainer').append(output);
 		let noDescription = "Marvel does not provide a description for this character.";
-		$('.characterDescription').append(noDescription);
+		character_template = 
+			'<div class="row">' +
+				'<div class="characterName"><h2>' + randomCharacterName + '</h2></div>' +
+				'<div class="row">' +
+					'<div class="characterImg col-3">' + output + '</div>' +
+					'<div class="characterDescription col-9">' + noDescription + '</div>' +
+				'</div>' + 	
+			'</div>';
+		$('.characterContainer').append(character_template);
 	}
 	else{
-		$('#resultsTitle').append(randomCharacter.name);
-		$('.thumbnailContainer').append(output);
-		$('.characterDescription').append(description);
+		$('.characterContainer').append(character_template);
 	}
 
 // After character data is retrieved, then app should also retrieve
@@ -183,8 +209,8 @@ function displayAPIData_Comics(data){
 	}
 	
 	// something is wrong with this if-loop -- use Doctor Faustus as example
-	if(comicArray.length > 4){
-		for(let i = 0; i < 4; i++){
+	if(comicArray.length > 10){
+		for(let i = 0; i < 10; i++){
 			if(selectedNumbers.forEach(function(element){}) !== randomNum){
 				selectedNumbers.push(randomComicNumber(comicArray));
 			}
@@ -197,7 +223,7 @@ function displayAPIData_Comics(data){
 			let comicDescription = comic.description;
 			let price = comic.prices;
 			console.log(price);
-			let comicTitle = '<h3>' + comic.title + '</h3>';
+			let comicTitle = comic.title;
 			let comicCover = comic.thumbnail.path + "/standard_xlarge." + comic.thumbnail.extension;
 			let link = comic.urls[0].url; 
 			let output = '<a href="' + link + '" target="_blank"> <img class="coverImg" src="' + comicCover + '"></a>';
@@ -206,7 +232,7 @@ function displayAPIData_Comics(data){
 				let noComicDescription = "Marvel does not provide a description for this Comic";
 				let comic_template = 
 					'<div class="row">' +
-						'<div class="comicTitle">' + comicTitle + '</div>' +
+						'<div class="comicTitle"><h4>' + comicTitle + '</h4></div>' +
 						'<div class="row">' +
 							'<div class="comicCoverImg col-3">' + output + '</div>' +
 							'<div class="comicDescription col-9">' + noComicDescription + '</div>' +
@@ -218,7 +244,7 @@ function displayAPIData_Comics(data){
 			else{
 				let comic_template = 
 					'<div class="row">' +
-						'<div class="comicTitle">' + comicTitle + '</div>' +
+						'<div class="comicTitle"><h4>' + comicTitle + '</h4></div>' +
 						'<div class="row">' +
 							'<div class="comicCoverImg col-3">' + output + '</div>' +
 							'<div class="comicDescription col-9">' + comicDescription + '</div>' +

@@ -16,7 +16,7 @@ header{
 	opacity: .875;
 }
 #homeTitle{
-	font-size: 60px;
+	font-size: 50px;
 	/*Marvel Logo Red*/
 	color: #f0141e; 
 	display: block;
@@ -28,20 +28,29 @@ header{
 	margin: 0 auto;
 }
 
-.descriptionContainer, .thumbnailContainer, .comicsContainer{
+.characterContainer, .comicsContainer{
 	display: none;
-	/*border:2px solid black;*/
 }
 
-.comicTitle{
-	border:2px solid red;
+#instructions{
+	width: 75%;
+	margin: 0 auto;
+}
+
+.submitButtonContainer, .submitButtonRandomContainer{
+	width: 25%%;
+	display: inline-block;
+}
+
+.comicTitle, .characterName{
+	/*border:2px solid red;*/
 	text-align: center;
 }
 
 .searchBar{
-	width: 100%;
+	width: 50%;
 	height: 25%;
-	font-size: 30px;
+	font-size: 24px;
 	margin: auto;
 	background-color: #e8e8e8;
 	opacity: .875;
@@ -64,12 +73,21 @@ header{
 	text-align: center;
 }
 
-.coverImg{
+.coverImg, .characterThumbnail{
 	width: 100%;
 	height: 100%;
 }
 
-.comicTitle, .comicDescription, .comicCoverImg{
+.comicTitle, .comicDescription, .comicCoverImg, .characterDescription, .characterImg, .characterName{
 	text-align: left;
 	padding: 5px 15px;
 }
+
+.characterName{
+	text-align: center;
+}
+
+.characterDescription{
+	font-size: 20px;
+}
+

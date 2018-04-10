@@ -16,16 +16,19 @@
     </header>
 
     <main role="main">
+      <div id="instructions">
+        <p>Discover comics and stories of your favorite Marvel heroes/villains from the Marvel Universe by searching for a specific character or press "Random" to discover a random character</p>
+      </div>
       <form class="searchForm">
         <div class="row">
-          <input type="text" class="searchBar col-12" placeholder="ex. Spider-Man">
+          <input type="text" class="searchBar" placeholder="ex. Spider-Man">
         </div>
 
         <div class="row">
-            <div class="col-6">
+            <div class="submitButtonContainer">
               <button type="submit" id="submitButton">SEARCH</button>
             </div>
-            <div class="col-6">
+            <div class="submitButtonRandomContainer">
               <button type="submit" id="submitButtonRandom">RANDOM</button>
             </div>
           </div>
@@ -34,20 +37,16 @@
     </main>
 
     <section role="region" id="characterInfo">
-      <h2 id="resultsTitle"></h2>
-
-        <div class="thumbnailContainer">
+      <div class="row">
+        <div class="characterContainer">
         </div>
-
-        <div class="descriptionContainer">
-          <p class="characterDescription"></p>
-        </div>    
+      </div>
     </section>
 
     <section role="region" id="comicsInfo">
       <div class="row">
         <div class="comicsContainer">
-          </div>  
+        </div>  
       </div>
     </section>
 
