@@ -135,7 +135,7 @@ h2{
 	display: none;
 }
 
-.loader {
+.loaderTop, .loaderBottom {
   color: black;
   font-size: 50px;
   text-indent: -9999em;

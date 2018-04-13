@@ -40,12 +40,15 @@ function comic_template(comicTitle, output){
 
 function character_template(characterName, output, description){
 	return '<div class="row">' +
+				// '<div class="row"><div class="characterName col-6"><h2>' + characterName + '</h2></div></div>' +
+				// '<div class="row"><div class="characterImg col-3">' + output + '</div><div class="characterDescription col-9"><h3>' + description + '</h3></div></div>'
+
 				'<div class="characterName"><h2>' + characterName + '</h2></div>' +
 				'<div class="row">' +
 					'<div class="characterImg col-3">' + output + '</div>' +
 					'<div class="characterDescription col-9"><h3>' + description + '</h3></div>' +
 				'</div>' + 	
-			'</div>'
+			'</div>';
 }
 
 function reveal(eventListener){
@@ -82,11 +85,20 @@ function submitButton(){
 	$('#submitButton').on('click', function(event){
     	event.preventDefault();
     	let query = $('.searchBar').val();
-    	$('.searchBar').val("");
-    	getAPIData_Characters(query, displayAPIData_Chars);
-    	sharedShowAll();
-    	conceal('#instructions');
-    	$('.searchForm').hide();
+    	if(query === "" || query === null){
+    		sharedShowAll();
+    		conceal('#instructions');
+    		$('.searchForm').hide();
+    		let emptyError = '<h2>ERROR! Your search for NOTHING returned NOTHING! Press New Search to search again</h2>'
+    		$('.characterContainer').append(emptyError);
+    	}
+    	else{
+    		$('.searchBar').val("");
+    		getAPIData_Characters(query, displayAPIData_Chars);
+    		sharedShowAll();
+    		conceal('#instructions');
+    		$('.searchForm').hide();
+    	}	
   });
 }
 
@@ -113,22 +125,30 @@ function newSearch(){
     	$('.comicCarousel').empty();
     	$('.comicsContainer').empty();
     	sharedConcealAll();
-    	$('.comicCarousel').append('<div class="loader hidden"></div>');
+    	$('.comicCarousel').append('<div class="loaderBottom hidden"></div>');
+    	$('.characterContainer').append('<div class="loaderTop hidden"></div>');
 	});
 }
 
 function getAPIData_Characters(searchTerm, callback){
-	$.getJSON(MARVEL_API_URL_CHARS, q_Char(searchTerm), callback);
+	$(".loaderTop").toggleClass("hidden");
+	$.getJSON(MARVEL_API_URL_CHARS, q_Char(searchTerm), callback, function(json){
+		$(".loaderTop").toggleClass("hidden");
+	});
 }
 
 function getAPIData_Characters_Random(randomLetter, callback){
-	$.getJSON(MARVEL_API_URL_CHARS, q_Char_Random(randomLetter), callback);
+	$(".loaderTop").toggleClass("hidden");
+	$.getJSON(MARVEL_API_URL_CHARS, q_Char_Random(randomLetter), callback, function(json){
+		$(".loaderTop").toggleClass("hidden");
+	});
 }
 
 function getAPIData_Comics(characterID, callback){
-	$(".loader").toggleClass("hidden");
+	$(".loaderBottom").toggleClass("hidden");
+	$(".loaderTop").toggleClass("hidden")
 	$.getJSON(MARVEL_API_URL_COMICS, q_Comics(characterID), callback, function(json){
-		$(".loader").toggleClass("hidden");
+		$(".loaderBottom").toggleClass("hidden");
 	});
 }
 
@@ -196,7 +216,7 @@ function displayAPIData_Comics(data){
 	let comicNonexists = '<h3>' +character + ' does not appear in any Marvel comic books at this time</h3>';
 	if(array.length < 1){
 		$('.comicsContainer').append(comicNonexists);
-		$('.loader').toggleClass('hidden');
+		$('.loaderBottom').toggleClass('hidden');
 	}
 
 	else{
@@ -216,7 +236,7 @@ function displayAPIData_Comics(data){
 		}
 			$('.comicsContainer').append(comicExists);
 		}
-	}
+}
 	comic_display(characterName, comicArray);
 }
 
