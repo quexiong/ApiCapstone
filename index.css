@@ -8,17 +8,18 @@ body{
 	background-position: center;
 	text-align: center;
 	height: 100%;
+	font-family: 'Permanent Marker', cursive;
 }
 
 header{
 	width: 100%;
-	background-color: #e8e8e8;
+	background-color: #f0141e;
 	opacity: .875;
 }
 #homeTitle{
-	font-size: 50px;
+	font-size: 60px;
 	/*Marvel Logo Red*/
-	color: #f0141e; 
+	color: white; 
 	display: block;
 	text-shadow: 3px 3px 3px #636363;
 }
@@ -34,6 +35,7 @@ header{
 
 #instructions{
 	width: 75%;
+	font-size: 20px;
 	margin: 0 auto;
 }
 
@@ -50,11 +52,11 @@ header{
 .searchBar{
 	width: 50%;
 	height: 25%;
-	font-size: 24px;
+	font-size: 20px;
 	margin: auto;
-	background-color: #e8e8e8;
+	background-color: #f0141e;
 	opacity: .875;
-	color: #f0141e;
+	color: white;
 	text-align: center;
 }
 
@@ -69,8 +71,9 @@ header{
 }
 
 ::placeholder{
-	color: #f0141e;
+	color: white;
 	text-align: center;
+	font-family: 'Permanent Marker', cursive;
 }
 
 .characterThumbnail{
