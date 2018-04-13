@@ -35,7 +35,7 @@ function q_Comics(characterID){
 }
 
 function comic_template(comicTitle, output){
-	return '<span class="coverImg">'+ output + '</span><span class="comicTitle">' + comicTitle + '</span>';
+	return '<div class="coverImg col-6">'+ comicTitle + output + '</div>';
 }
 
 function character_template(characterName, output, description){
@@ -43,7 +43,7 @@ function character_template(characterName, output, description){
 				'<div class="characterName"><h2>' + characterName + '</h2></div>' +
 				'<div class="row">' +
 					'<div class="characterImg col-3">' + output + '</div>' +
-					'<div class="characterDescription col-9">' + description + '</div>' +
+					'<div class="characterDescription col-9"><h3>' + description + '</h3></div>' +
 				'</div>' + 	
 			'</div>'
 }
@@ -67,6 +67,14 @@ function sharedConcealAll(){
 	conceal('.comicsContainer');
 	conceal('characterContainer');
 	conceal('#newSearchButton');
+}
+
+function randomChar(){
+  	var randomLetter = "";
+  	var possible = "abcdefghijklmnopqrstuvwxyz";
+	randomLetter += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  	return randomLetter;
 }
 
 // this function handles the "search" button
@@ -105,6 +113,7 @@ function newSearch(){
     	$('.comicCarousel').empty();
     	$('.comicsContainer').empty();
     	sharedConcealAll();
+    	$('.comicCarousel').append('<div class="loader hidden"></div>');
 	});
 }
 
@@ -117,18 +126,22 @@ function getAPIData_Characters_Random(randomLetter, callback){
 }
 
 function getAPIData_Comics(characterID, callback){
-	$.getJSON(MARVEL_API_URL_COMICS, q_Comics(characterID), callback);
+	$(".loader").toggleClass("hidden");
+	$.getJSON(MARVEL_API_URL_COMICS, q_Comics(characterID), callback, function(json){
+		$(".loader").toggleClass("hidden");
+	});
 }
 
 let characterID = "";
+let characterName = "";
 
 // this function handles displaying character data if the user searches for a specific character
 function displayAPIData_Chars(data){
 	try{
-		let characterName = data.data.results[0].name;
+		characterName = data.data.results[0].name;
 		let description = data.data.results[0].description;
-		let imgPath = data.data.results[0].thumbnail.path + "/standard_xlarge." + data.data.results[0].thumbnail.extension;
-		let output = '<img class="characterThumbnail" src="' + imgPath + '">';
+		let imgPath = data.data.results[0].thumbnail.path + '/standard_xlarge.' + data.data.results[0].thumbnail.extension;
+		let output = '<img class="characterThumbnail" src="' + imgPath + '" alt="A thumbnail image of ' + characterName + '">';
 		characterID = data.data.results[0].id;
 
 		if(description === ""){
@@ -153,20 +166,19 @@ function displayAPIData_Chars(data){
 function displayAPIData_Chars_Random(data){
 	let randomCharacterArray = data.data.results;
 	var randomCharacter = randomCharacterArray[Math.floor(Math.random()*randomCharacterArray.length)];
-	let randomCharacterName = randomCharacter.name;
+	characterName = randomCharacter.name;
 	let description = randomCharacter.description;
-	let imgPath = randomCharacter.thumbnail.path + "/standard_xlarge." + randomCharacter.thumbnail.extension;
-	let output = '<img class="characterThumbnail" src="' + imgPath + '">';
+	let imgPath = randomCharacter.thumbnail.path + '/standard_xlarge.' + randomCharacter.thumbnail.extension;
+	let output = '<img class="characterThumbnail" src="' + imgPath + '" alt="A thumbnail image of ' + characterName + '">';
 	characterID = randomCharacter.id;
 
 	if(description === ""){
 		description = "Marvel does not provide a description for this character.";
-		$('.characterContainer').append(character_template(randomCharacterName, output, description));
+		$('.characterContainer').append(character_template(characterName, output, description));
 	}
 	else{
-		$('.characterContainer').append(character_template(randomCharacterName, output, description));
+		$('.characterContainer').append(character_template(characterName, output, description));
 	}
-
 // After character data is retrieved, then app should also retrieve the comic book data	
 	getAPIData_Comics(characterID, displayAPIData_Comics);
 }
@@ -174,38 +186,38 @@ function displayAPIData_Chars_Random(data){
 // this function handles displaying comic data
 function displayAPIData_Comics(data){
 	let comicArray = data.data.results;
+	//let characterName = 
 	console.log(comicArray);
 	let noComics = "Marvel does not provide comic book data for this character."
 
-	if(comicArray.length < 1){
-		$('.comicsContainer').append(noComics);
+	function comic_display(characterName, array){
+	let character = characterName;
+	let comicExists = '<h3>' + character + ' appears in the following comics. Click on the thumbnail to visit the Marvel website to preview the comic book or to purchase it.</h3>';
+	let comicNonexists = '<h3>' +character + ' does not appear in any Marvel comic books at this time</h3>';
+	if(array.length < 1){
+		$('.comicsContainer').append(comicNonexists);
+		$('.loader').toggleClass('hidden');
 	}
 
 	else{
-		comicArray.forEach(function(element){
-			let comicTitle = '<h3>' + element.title + '</h3>';
-			let comicDescription = element.description;
-			let comicCover = element.thumbnail.path + "/standard_xlarge." + element.thumbnail.extension;
-			let link = element.urls[0].url; 
-			let output = '<a href="' + link + '" target="_blank"> <img class="coverImg" src="' + comicCover + '"></a>';
-			
+		for(let i = 0; i < 50; i++){
+		let comicTitle = '<h5>' + comicArray[i].title + '</h5>';
+		let comicDescription = comicArray[i].description;
+		let comicCover = comicArray[i].thumbnail.path + '/standard_xlarge.' + comicArray[i].thumbnail.extension;
+		let link = comicArray[i].urls[0].url; 
+		let output = '<a href="' + link + '" target="_blank"> <img class="coverImg" src="' + comicCover + '" alt="Comic book cover"></a>';
+		
 			if(comicDescription === "" || comicDescription === null){
 				$('.comicCarousel').append(comic_template(comicTitle, output));
 			}
-
 			else{
 				$('.comicCarousel').append(comic_template(comicTitle, output));
 			}
-		});
+		}
+			$('.comicsContainer').append(comicExists);
+		}
 	}
-}
-
-function randomChar(){
-  	var randomLetter = "";
-  	var possible = "abcdefghijklmnopqrstuvwxyz";
-	randomLetter += possible.charAt(Math.floor(Math.random() * possible.length));
-
-  	return randomLetter;
+	comic_display(characterName, comicArray);
 }
 
 function start(){

@@ -3,22 +3,23 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Marvel API Hack</title>
+    <title>Marvel API Capstone</title>
     <link href="index.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="grid.css">
     <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bangers" rel="stylesheet">
 	  <script src="jquery-3.3.1.min.js"></script>
 	  <script src="md5.min.js"></script>
   </head>
 
   <body>
     <header role="banner">
-      <h1 id="homeTitle">Discover Marvel Comics</h1>
+      <h1 id="homeTitle">Marvel Comics Explorer</h1>
     </header>
 
     <main role="main">
       <div id="instructions">
-        <p>Discover comics and stories of your favorite Marvel heroes/villains from the Marvel Universe by searching for a specific character or press "Random" to discover a random character</p>
+        <p>Explore comics and stories of your favorite Marvel heroes/villains from the Marvel Universe by searching for a specific character or press "Random" to explore a random character</p>
       </div>
       <form class="searchForm">
         <div class="row">
@@ -38,24 +39,17 @@
     </main>
 
     <section role="region" id="characterInfo">
-      <div class="row">
+      <!-- <div class="row"> -->
         <div class="characterContainer">
         </div>
-      </div>
+      <!-- </div> -->
     </section>
 
     <section role="region" id="comicsInfo">
       <div class="comicsContainer col-12"></div>
         <ul class="comicCarousel scrollingCarousel">
-        
+          <div class="loader hidden"></div>
         </ul>
-      
-      
-
-      <!-- <div class="row">
-        <div class="comicsContainer">
-        </div>  
-      </div> -->
     </section>
 
     <section role="region" id="restart">
