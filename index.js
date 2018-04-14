@@ -59,6 +59,10 @@ function conceal(eventListener){
 	$(eventListener).css('display', 'none');
 }
 
+function emptyContent(eventListener){
+	$(eventListener).empty();
+}
+
 function hideCarouselNav(){
 	$('.carousel-control').css('visibility', 'hidden');
 }
@@ -79,6 +83,13 @@ function sharedConcealAll(){
 	conceal('#newSearchButton');
 }
 
+function clearAllContent(){
+	emptyContent('.characterContainer');
+	emptyContent('.comicsContainer');
+	emptyContent('.carousel-inner');
+	emptyContent('.carousel-indicators');
+}
+
 function randomChar(){
   	var randomLetter = "";
   	var possible = "abcdefghijklmnopqrstuvwxyz";
@@ -95,7 +106,7 @@ function submitButton(){
     		sharedShowAll();
     		conceal('#instructions');
     		$('.searchForm').hide();
-    		let emptyError = '<p id="nothingError">ERROR! Your search for NOTHING returned NOTHING! Press New Search to search again</p>'
+    		let emptyError = '<div class="errorMessage">ERROR! Your search for NOTHING returned NOTHING! Press New Search to search again</div>'
     		$('.characterContainer').append(emptyError);
     		reveal('#newSearchButton');
     	}
@@ -126,16 +137,15 @@ function newSearch(){
 	$('#newSearchButton').on('click', function(event){
 		event.preventDefault();
 		$('.searchForm').show();
-		$('.characterContainer').empty();
+		// $('.characterContainer').empty();
     	$('body').css('background-image', 'url("http://data.1freewallpapers.com/download/avengers.jpg")');
     	reveal('#instructions');
-    	$('.comicCarousel').empty();
-    	$('.comicsContainer').empty();
+    	// $('.comicsContainer').empty();
     	sharedConcealAll();
-    	$('.comicCarousel').append('<div class="loaderBottom hidden"></div>');
     	$('.characterContainer').append('<div class="loaderTop hidden"></div>');
-    	$('.carousel-inner').empty();
-    	$('.carousel-indicators').empty();
+    	// $('.carousel-inner').empty();
+    	// $('.carousel-indicators').empty();
+    	clearAllContent();
     	hideCarouselNav();
 	});
 }
@@ -183,9 +193,9 @@ function displayAPIData_Chars(data){
 	}
 	catch(e){
 		if(e instanceof TypeError){
-			let errorMessage = '<div class="errorMessage"><p>Invalid Character/Character Does Not Exist.<br>Click on New Search to restart.</h4></div>';
-			$('.comicsContainer').append(errorMessage);
-			$(".loaderTop").toggleClass("hidden");
+			let errorMessage = '<div class="errorMessage"><p>Invalid Character/Character Does Not Exist.<br>Press New Search to restart.</p></div>';
+			$('.characterContainer').append(errorMessage);
+			$('.loaderTop').toggleClass('hidden');
 			reveal('#newSearchButton');
 		}
 	}
@@ -257,7 +267,7 @@ function displayAPIData_Comics(data){
 	}
 }
 	comic_display(characterName, comicArray);
-	$(".loaderBottom").toggleClass("hidden");
+	$('.loaderBottom').toggleClass('hidden');
 	reveal('#newSearchButton');
 }
 
