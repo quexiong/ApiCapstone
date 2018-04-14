@@ -178,6 +178,7 @@ function displayAPIData_Chars(data){
 		if(e instanceof TypeError){
 			let errorMessage = '<div class="errorMessage"><p>Invalid Character/Character Does Not Exist.</p> <p>Click on New Search to restart.</p></div>';
 			$('#restart').append(errorMessage);
+			$(".loaderTop").toggleClass("hidden");
 		}
 	}
 }
