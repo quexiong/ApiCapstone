@@ -14,7 +14,6 @@ body {
 header {
 	width: 100%;
 	background-color: #f0141e;
-	opacity: .875;
 }
 #homeTitle {
 	font-size: 60px;
@@ -112,24 +111,20 @@ header {
 }
 
 .characterDescription {
-	/*font-size: 20px;*/
-}
-
-.comicsContainer {
 	
 }
 
-.scrollingCarousel {
-	/*background-color: #f0141e;*/
-	display: flex;
-  	flex-wrap: nowrap;
-  	overflow-x: auto;
-  	-webkit-overflow-scrolling: touch;
+.errorMessage {
+	font-size: 20px;
+	background-color: #f0141e;
+	color: #ffffff;
+	width: 75%;
+	margin: 10px auto;
 }
 
-h3, h5 {
+h3, h4 {
 	background-color: #f0141e;
-	color: white;
+	color: #ffffff;
 	padding: 4px;
 }
 

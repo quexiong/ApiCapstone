@@ -180,7 +180,7 @@ function displayAPIData_Chars(data){
 	}
 	catch(e){
 		if(e instanceof TypeError){
-			let errorMessage = '<div class="errorMessage"><h4>Invalid Character/Character Does Not Exist.</h4> <h4>Click on New Search to restart.</h4></div>';
+			let errorMessage = '<div class="errorMessage"><p>Invalid Character/Character Does Not Exist.<br>Click on New Search to restart.</h4></div>';
 			$('.comicsContainer').append(errorMessage);
 			$(".loaderTop").toggleClass("hidden");
 			reveal('#newSearchButton');
@@ -224,8 +224,8 @@ function displayAPIData_Comics(data){
 	}
 	else{
 		try{
-			for(let i = 0; i < 50; i++){
-				let comicTitle = '<h5>' + comicArray[i].title + '</h5>';
+			for(let i = 0; i < comicArray.length; i++){
+				let comicTitle = '<h4>' + comicArray[i].title + '</h4>';
 				let comicDescription = comicArray[i].description;
 				let comicCover = comicArray[i].thumbnail.path + '/standard_xlarge.' + comicArray[i].thumbnail.extension;
 				let link = comicArray[i].urls[0].url; 
@@ -244,7 +244,7 @@ function displayAPIData_Comics(data){
 				}
 		catch(e){
 			if(e instanceof TypeError){
-				let errorMessage = '<div class="errorMessage"><h4>Could not retrieve comic book data for ' + characterName + '.</h4> <h4>Click on New Search to restart.</h4></div>';
+				let errorMessage = '<div class="errorMessage"><p>Could not retrieve comic book data for ' + characterName + '.<br>Click on New Search to restart.</p></div>';
 				$('.comicsContainer').append(errorMessage);
 			}
 		}
