@@ -137,14 +137,10 @@ function newSearch(){
 	$('#newSearchButton').on('click', function(event){
 		event.preventDefault();
 		$('.searchForm').show();
-		// $('.characterContainer').empty();
     	$('body').css('background-image', 'url("http://data.1freewallpapers.com/download/avengers.jpg")');
     	reveal('#instructions');
-    	// $('.comicsContainer').empty();
     	sharedConcealAll();
     	$('.characterContainer').append('<div class="loaderTop hidden"></div>');
-    	// $('.carousel-inner').empty();
-    	// $('.carousel-indicators').empty();
     	clearAllContent();
     	hideCarouselNav();
 	});
@@ -250,7 +246,6 @@ function displayAPIData_Comics(data){
 					else{
 						$('.carousel-inner').append(comic_template(comicTitle, output));
 						$('.carousel-indicators').append(indicators);
-						
 					}
 				}
 					$('.comicsContainer').append(comicExists);
