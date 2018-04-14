@@ -3,6 +3,9 @@ const MARVEL_API_URL_CHARS = 'https://gateway.marvel.com:443/v1/public/character
 const privateKey = '1f5fd28b14f8ed93cec944971c0e89717203071f';
 const publicKey = '700e41e58c0d4aafcbacc21d5c434f5c';
 
+let characterID = "";
+let characterName = "";
+
 function q_Char(searchTerm){
 	const ts = new Date().getTime();
 	return {
@@ -27,7 +30,7 @@ function q_Comics(characterID){
 	const ts = new Date().getTime();
 	return {
 		characters: characterID,
-		limit: 100,
+		limit: 50,
 		ts: ts,
 		apikey: publicKey,
 		hash: md5(ts+privateKey+publicKey).toString()
@@ -35,14 +38,11 @@ function q_Comics(characterID){
 }
 
 function comic_template(comicTitle, output){
-	return '<div class="coverImg col-6">'+ comicTitle + output + '</div>';
+	return '<div class="item">' + comicTitle + output + '</div>'	
 }
 
 function character_template(characterName, output, description){
 	return '<div class="row">' +
-				// '<div class="row"><div class="characterName col-6"><h2>' + characterName + '</h2></div></div>' +
-				// '<div class="row"><div class="characterImg col-3">' + output + '</div><div class="characterDescription col-9"><h3>' + description + '</h3></div></div>'
-
 				'<div class="characterName"><h2>' + characterName + '</h2></div>' +
 				'<div class="row">' +
 					'<div class="characterImg col-3">' + output + '</div>' +
@@ -59,8 +59,15 @@ function conceal(eventListener){
 	$(eventListener).css('display', 'none');
 }
 
+function hideCarouselNav(){
+	$('.carousel-control').css('visibility', 'hidden');
+}
+
+function showCarouselNav(){
+	$('.carousel-control').css('visibility', 'visible');
+}
+
 function sharedShowAll(){
-	reveal('#newSearchButton');
 	reveal('.characterContainer');
 	reveal('.comicsContainer');
 }
@@ -76,7 +83,6 @@ function randomChar(){
   	var randomLetter = "";
   	var possible = "abcdefghijklmnopqrstuvwxyz";
 	randomLetter += possible.charAt(Math.floor(Math.random() * possible.length));
-
   	return randomLetter;
 }
 
@@ -97,7 +103,7 @@ function submitButton(){
     		getAPIData_Characters(query, displayAPIData_Chars);
     		sharedShowAll();
     		conceal('#instructions');
-    		$('.searchForm').hide();
+    		$('.searchForm').hide();	
     	}	
   });
 }
@@ -127,6 +133,8 @@ function newSearch(){
     	sharedConcealAll();
     	$('.comicCarousel').append('<div class="loaderBottom hidden"></div>');
     	$('.characterContainer').append('<div class="loaderTop hidden"></div>');
+    	$('.carousel-inner').empty();
+    	hideCarouselNav();
 	});
 }
 
@@ -152,9 +160,6 @@ function getAPIData_Comics(characterID, callback){
 	});
 }
 
-let characterID = "";
-let characterName = "";
-
 // this function handles displaying character data if the user searches for a specific character
 function displayAPIData_Chars(data){
 	try{
@@ -173,12 +178,12 @@ function displayAPIData_Chars(data){
 		}
 		getAPIData_Comics(characterID, displayAPIData_Comics);
 	}
-
 	catch(e){
 		if(e instanceof TypeError){
-			let errorMessage = '<div class="errorMessage"><p>Invalid Character/Character Does Not Exist.</p> <p>Click on New Search to restart.</p></div>';
-			$('#restart').append(errorMessage);
+			let errorMessage = '<div class="errorMessage"><h4>Invalid Character/Character Does Not Exist.</h4> <h4>Click on New Search to restart.</h4></div>';
+			$('.comicsContainer').append(errorMessage);
 			$(".loaderTop").toggleClass("hidden");
+			reveal('#newSearchButton');
 		}
 	}
 }
@@ -207,7 +212,6 @@ function displayAPIData_Chars_Random(data){
 // this function handles displaying comic data
 function displayAPIData_Comics(data){
 	let comicArray = data.data.results;
-	//let characterName = 
 	console.log(comicArray);
 	let noComics = "Marvel does not provide comic book data for this character."
 
@@ -217,28 +221,38 @@ function displayAPIData_Comics(data){
 	let comicNonexists = '<h3>' +character + ' does not appear in any Marvel comic books at this time</h3>';
 	if(array.length < 1){
 		$('.comicsContainer').append(comicNonexists);
-		$('.loaderBottom').toggleClass('hidden');
 	}
-
 	else{
-		for(let i = 0; i < 50; i++){
-		let comicTitle = '<h5>' + comicArray[i].title + '</h5>';
-		let comicDescription = comicArray[i].description;
-		let comicCover = comicArray[i].thumbnail.path + '/standard_xlarge.' + comicArray[i].thumbnail.extension;
-		let link = comicArray[i].urls[0].url; 
-		let output = '<a href="' + link + '" target="_blank"> <img class="coverImg" src="' + comicCover + '" alt="Comic book cover"></a>';
-		
-			if(comicDescription === "" || comicDescription === null){
-				$('.comicCarousel').append(comic_template(comicTitle, output));
-			}
-			else{
-				$('.comicCarousel').append(comic_template(comicTitle, output));
+		try{
+			for(let i = 0; i < 50; i++){
+				let comicTitle = '<h5>' + comicArray[i].title + '</h5>';
+				let comicDescription = comicArray[i].description;
+				let comicCover = comicArray[i].thumbnail.path + '/standard_xlarge.' + comicArray[i].thumbnail.extension;
+				let link = comicArray[i].urls[0].url; 
+				let output = '<a href="' + link + '" target="_blank"> <img class="coverImg" src="' + comicCover + '" alt="Comic book cover"></a>';
+
+					if(comicDescription === "" || comicDescription === null){
+						$('.carousel-inner').append(comic_template(comicTitle, output));
+					}
+					else{
+						$('.carousel-inner').append(comic_template(comicTitle, output));
+					}
+				}
+					$('.comicsContainer').append(comicExists);
+					$('.item').first().addClass('active');
+					showCarouselNav();
+				}
+		catch(e){
+			if(e instanceof TypeError){
+				let errorMessage = '<div class="errorMessage"><h4>Could not retrieve comic book data for ' + characterName + '.</h4> <h4>Click on New Search to restart.</h4></div>';
+				$('.comicsContainer').append(errorMessage);
 			}
 		}
-			$('.comicsContainer').append(comicExists);
-		}
+	}
 }
 	comic_display(characterName, comicArray);
+	$(".loaderBottom").toggleClass("hidden");
+	reveal('#newSearchButton');
 }
 
 function start(){
@@ -246,6 +260,7 @@ function start(){
 	submitButtonRandom();
 	newSearch();
 	randomChar();
+	hideCarouselNav();
 }
 
 $(start);
