@@ -135,6 +135,7 @@ function newSearch(){
     	$('.comicCarousel').append('<div class="loaderBottom hidden"></div>');
     	$('.characterContainer').append('<div class="loaderTop hidden"></div>');
     	$('.carousel-inner').empty();
+    	$('.carousel-indicators').empty();
     	hideCarouselNav();
 	});
 }
