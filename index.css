@@ -15,6 +15,16 @@ header {
 	width: 100%;
 	background-color: #f0141e;
 }
+
+footer{
+	position: fixed;
+   	left: 0;
+   	bottom: 0;
+   	width: 100%;
+   	background-color: red;
+   	color: white;
+}
+
 #homeTitle {
 	font-size: 60px;
 	/*Marvel Logo Red*/
@@ -26,6 +36,7 @@ header {
 }
 
 #newSearchButton {
+	width: 25%;
 	display: none;
 	font-size: 16px;
 	margin: 10px auto;
@@ -39,7 +50,7 @@ header {
 	display: none;
 }
 
-#instructions {
+#instructions, #nothingError {
 	width: 75%;
 	font-size: 20px;
 	margin: 0 auto;
@@ -111,7 +122,7 @@ header {
 }
 
 .characterDescription {
-	
+
 }
 
 .errorMessage {
@@ -126,14 +137,32 @@ h3, h4 {
 	background-color: #f0141e;
 	color: #ffffff;
 	padding: 4px;
+	width: 85%;
+	margin: 10px auto;
 }
 
 h2 {
 	margin: 4px 4px auto;
 }
 
+.marvelAttr {
+	text-align: left;
+}
+
 .hidden {
 	display: none;
+}
+
+.carousel-indicators li {
+	/*background-color: white;*/
+	width: 10px;
+	height: 10px;
+	border: 1px solid red;
+}
+
+.carousel-indicators .active {
+	width: 14px;
+	height: 14px;
 }
 
 .loaderTop, .loaderBottom {

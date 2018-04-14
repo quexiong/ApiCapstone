@@ -95,8 +95,9 @@ function submitButton(){
     		sharedShowAll();
     		conceal('#instructions');
     		$('.searchForm').hide();
-    		let emptyError = '<h2>ERROR! Your search for NOTHING returned NOTHING! Press New Search to search again</h2>'
+    		let emptyError = '<p id="nothingError">ERROR! Your search for NOTHING returned NOTHING! Press New Search to search again</p>'
     		$('.characterContainer').append(emptyError);
+    		reveal('#newSearchButton');
     	}
     	else{
     		$('.searchBar').val("");
@@ -162,6 +163,7 @@ function getAPIData_Comics(characterID, callback){
 
 // this function handles displaying character data if the user searches for a specific character
 function displayAPIData_Chars(data){
+	console.log(data);
 	try{
 		characterName = data.data.results[0].name;
 		let description = data.data.results[0].description;
@@ -230,16 +232,19 @@ function displayAPIData_Comics(data){
 				let comicCover = comicArray[i].thumbnail.path + '/standard_xlarge.' + comicArray[i].thumbnail.extension;
 				let link = comicArray[i].urls[0].url; 
 				let output = '<a href="' + link + '" target="_blank"> <img class="coverImg" src="' + comicCover + '" alt="Comic book cover"></a>';
-
+				let indicators = '<li data-target="#myCarousel" data-slide-to="' + i + '" class=""></li>'
 					if(comicDescription === "" || comicDescription === null){
 						$('.carousel-inner').append(comic_template(comicTitle, output));
 					}
 					else{
 						$('.carousel-inner').append(comic_template(comicTitle, output));
+						$('.carousel-indicators').append(indicators);
+						
 					}
 				}
 					$('.comicsContainer').append(comicExists);
 					$('.item').first().addClass('active');
+					$('.carousel-indicators > li').first().addClass('active');
 					showCarouselNav();
 				}
 		catch(e){
