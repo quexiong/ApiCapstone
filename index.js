@@ -40,9 +40,6 @@ function comic_template(comicTitle, output){
 
 function character_template(characterName, output, description){
 	return '<div class="row">' +
-				// '<div class="row"><div class="characterName col-6"><h2>' + characterName + '</h2></div></div>' +
-				// '<div class="row"><div class="characterImg col-3">' + output + '</div><div class="characterDescription col-9"><h3>' + description + '</h3></div></div>'
-
 				'<div class="characterName"><h2>' + characterName + '</h2></div>' +
 				'<div class="row">' +
 					'<div class="characterImg col-3">' + output + '</div>' +
