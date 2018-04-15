@@ -215,7 +215,6 @@ function displayAPIData_Chars_Random(data){
 	else{
 		$('.characterContainer').append(character_template(characterName, output, description));
 	}
-// After character data is retrieved, then app should also retrieve the comic book data	
 	getAPIData_Comics(characterID, displayAPIData_Comics);
 }
 
