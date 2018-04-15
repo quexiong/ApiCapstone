@@ -1,3 +1,5 @@
+'use strict';
+
 const MARVEL_API_URL_COMICS = 'https://gateway.marvel.com:443/v1/public/comics?';
 const MARVEL_API_URL_CHARS = 'https://gateway.marvel.com:443/v1/public/characters?';
 const privateKey = '1f5fd28b14f8ed93cec944971c0e89717203071f';
