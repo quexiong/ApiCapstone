@@ -172,7 +172,6 @@ function getAPIData_Comics(characterID, callback){
 
 // this function handles displaying character data if the user searches for a specific character
 function displayAPIData_Chars(data){
-	console.log(data);
 	try{
 		characterName = data.data.results[0].name;
 		let description = data.data.results[0].description;
@@ -223,7 +222,6 @@ function displayAPIData_Chars_Random(data){
 // this function handles displaying comic data
 function displayAPIData_Comics(data){
 	let comicArray = data.data.results;
-	console.log(comicArray);
 	let noComics = "Marvel does not provide comic book data for this character."
 
 	function comic_display(characterName, array){
