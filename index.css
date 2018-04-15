@@ -1,5 +1,6 @@
 html {
 	height: 100%;
+	margin: 0;
 }
 body {
 	background: url("https://data.1freewallpapers.com/download/avengers.jpg");
@@ -16,18 +17,18 @@ header {
 	background-color: #f0141e;
 }
 
-footer{
-	position: fixed;
-   	left: 0;
-   	bottom: 0;
+main {
+	min-height: 100%;
+	margin-bottom: -40px;
+}
+
+footer {
    	width: 100%;
-   	/*background-color: red;*/
    	color: black;
 }
 
 #homeTitle {
-	font-size: 60px;
-	/*Marvel Logo Red*/
+	font-size: 46px;
 	margin: 0 0 auto;
 	color: #ffffff; 
 	display: block;
@@ -39,8 +40,8 @@ footer{
 	width: 25%;
 	display: none;
 	font-size: 16px;
-	margin: 80px auto;
-	margin-bottom: 200px;
+	margin: 30px auto;
+	margin-bottom: 60px;
 	background-color: #ffffff;
 	opacity: .90;
 	color: #f0141e;
@@ -68,7 +69,6 @@ footer{
 }
 
 .comicTitle, .characterName {
-	/*border:2px solid red;*/
 	text-align: center;
 }
 
@@ -76,7 +76,7 @@ footer{
 	width: 50%;
 	height: 25%;
 	font-size: 20px;
-	margin: auto;
+	margin: 4px auto;
 	background-color: #f0141e;
 	opacity: .875;
 	color: #ffffff;
@@ -107,7 +107,6 @@ footer{
 }
 
 .coverImg {
-	width: 30%;
 	height: 30%;
 	padding: 0 0;
 	margin: auto;
@@ -174,7 +173,6 @@ h2 {
 }
 
 .carousel-indicators li {
-	/*background-color: white;*/
 	width: 10px;
 	height: 10px;
 	border: 1px solid red;
@@ -184,6 +182,23 @@ h2 {
 	width: 14px;
 	height: 14px;
 }
+
+.imgContainer {
+	height: 50%;
+}
+
+.carousel .item {
+  height: 300px;
+}
+
+.item img {
+}
+
+.footer, .push {
+  height: 20px;
+}
+
+/************************Loading Animation*************************/
 
 .loaderTop, .loaderBottom {
   color: black;
@@ -266,6 +281,50 @@ h2 {
   }
 }
 
-.imgContainer{
-	height: 50%;
+@media screen and (max-width: 420px) {
+	#homeTitle {
+		font-size: 30px;
+	}
+	.marvelAttr {
+		text-align: center;
+		font-size: 11px;
+		margin-bottom: 10px;
+	}
+
+	.connect{
+		width: 7%;
+		height: 7%;
+		margin-bottom: 10px;
+	}
+
+	.creator {
+		text-align: center;
+		font-size: 11px;
+		margin-bottom: 10px;
+	}
+
+	.searchBar {
+		font-size: 16px;
+	}
+
+	#instructions, #nothingError, .errorMessage {
+		font-size: 18px;
+	}
+
+	#submitButton, #submitButtonRandom, #newSearchButton {
+		font-size: 12px;
+	}
+
+	h2 {
+		font-size: 22px;
+		text-align: center;
+	}
+
+	h3 {
+		font-size: 18px;
+	}
+
+	h4 {
+		font-size: 16px;
+	}
 }
