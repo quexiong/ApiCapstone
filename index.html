@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="description" content="Marvel Comics Explorer allows fans to view comics which their favorite superheroes or villains have appeared in. Fans can also introduce themselves to characters they aren't familiar with by using the random search function. Marvel Comics Explorer was made using data from the Marvel Developers API and is for educational purposes only, no commercial or monetary purposes intended.">
     <meta name="viewport" content="width=device-width">
     <title>Marvel Comics Explorer</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -23,20 +24,24 @@
       <div id="instructions">
         <p>Explore comics and stories of your favorite Marvel heroes/villains from the Marvel Universe by searching for a specific character or press "Random" to explore a random character</p>
       </div>
-      <form class="searchForm">
-        <div class="row">
-          <input type="text" class="searchBar" placeholder="ex. Spider-Man">
-        </div>
-
-        <div class="row">
-            <div class="submitButtonContainer">
-              <button type="submit" id="submitButton">SEARCH</button>
-            </div>
-            <div class="submitButtonRandomContainer">
-              <button type="submit" id="submitButtonRandom">RANDOM</button>
-            </div>
+      <legend>
+        <form class="searchForm">
+          <div class="row">
+              <label for="userInput"></label>
+              <input type="text" class="searchBar" placeholder="ex. Spider-Man" aria-label="input character name" autofocus required>
           </div>
+
+          <div class="row">
+              <div class="submitButtonContainer">
+                <button type="submit" id="submitButton" aria-label="search">SEARCH</button>
+              </div>
+              <div class="submitButtonRandomContainer">
+                <button type="submit" id="submitButtonRandom" aria-label="random search">RANDOM</button>
+              </div>
+            </div>
         </form>
+      </legend>
+
     </main>
 
     <section role="region" id="characterInfo">
@@ -77,7 +82,7 @@
         </div>    
     </section>
 
-    <section role="region" id="footer">
+    <section role="region" id="contentinfo">
       <footer role="footer">
         <div class="row">
           <div class="marvelAttr col-4">
@@ -85,10 +90,10 @@
           </div>
           <div class="connectMe col-4">
             <a target="_blank" href="https://www.linkedin.com/in/quentinxiong/">
-              <img class="connect" src="https://cdn3.iconfinder.com/data/icons/free-social-icons/67/linkedin_circle_black-256.png">
+              <img class="connect" src="https://cdn3.iconfinder.com/data/icons/free-social-icons/67/linkedin_circle_black-256.png" alt="LinkedIn logo">
             </a> 
             <a target="_blank" href="https://github.com/quexiong">
-              <img class="connect" src="https://cdn4.iconfinder.com/data/icons/iconsimple-logotypes/512/github-256.png">
+              <img class="connect" src="https://cdn4.iconfinder.com/data/icons/iconsimple-logotypes/512/github-256.png" alt="GitHub logo">
             </a> 
           </div>
           <div class="creator col-4">
