@@ -99,7 +99,6 @@ function randomChar(){
   	return randomLetter;
 }
 
-// this function handles the "search" button
 function submitButton(){
 	$('#submitButton').on('click', function(event){
     	event.preventDefault();
@@ -122,7 +121,6 @@ function submitButton(){
   });
 }
 
-// this function handles the "random search" button
 function submitButtonRandom(){
 	$('#submitButtonRandom').on('click', function(event){
     	event.preventDefault();
@@ -134,7 +132,6 @@ function submitButtonRandom(){
   });
 }
 
-// this function handles the "new search" button
 function newSearch(){
 	$('#newSearchButton').on('click', function(event){
 		event.preventDefault();
@@ -170,7 +167,6 @@ function getAPIData_Comics(characterID, callback){
 	});
 }
 
-// this function handles displaying character data if the user searches for a specific character
 function displayAPIData_Chars(data){
 	try{
 		characterName = data.data.results[0].name;
@@ -198,7 +194,6 @@ function displayAPIData_Chars(data){
 	}
 }
 
-// this function handles displaying character data if the user searches for a random character
 function displayAPIData_Chars_Random(data){
 	let randomCharacterArray = data.data.results;
 	var randomCharacter = randomCharacterArray[Math.floor(Math.random()*randomCharacterArray.length)];
@@ -218,7 +213,6 @@ function displayAPIData_Chars_Random(data){
 	getAPIData_Comics(characterID, displayAPIData_Comics);
 }
 
-// this function handles displaying comic data
 function displayAPIData_Comics(data){
 	let comicArray = data.data.results;
 	let noComics = "Marvel does not provide comic book data for this character."
