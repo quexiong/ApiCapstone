@@ -7,21 +7,19 @@ const publicKey = '700e41e58c0d4aafcbacc21d5c434f5c';
 
 let characterID = "";
 let characterName = "";
+let limit;
 let marvelCharactersArray = [];
 
-// start partial search code attempt
+// autofill section
 function autoCompleteSearch(){
 	$('.searchBar').keyup(function(event){
 		event.preventDefault();
 		let searchTerm = $('.searchBar').val();
 		console.log(searchTerm);
-		keyUp_APIData_Characters(searchTerm, autocompleteNames);
+		limit = 10;
+		getAPIData_Characters(searchTerm, limit, autocompleteNames);
 		emptyContent('#autocomplete-list');
 	});
-}
-
-function keyUp_APIData_Characters(searchTerm, callback){
-	$.getJSON(MARVEL_API_URL_CHARS, q_Char(searchTerm), callback);
 }
 
 function autocompleteNames(data){
@@ -30,41 +28,53 @@ function autocompleteNames(data){
 	$('.autocompleteContainer').append('<div id="autocomplete-list"></div>');
 	for(let i = 0; i < autoCharacterArray.length; i++){
 		let autoCharacterName = autoCharacterArray[i].name;
-		console.log(autoCharacterName);
 		$('#autocomplete-list').append(auto_template(autoCharacterName));
 	}
+	autoHover();
+	autoClick();
 }
 
-function auto_template(autoCharacterName){
+function auto_template(name){
 	return '<div class="autocomplete-items">' +
-				'<div>' + autoCharacterName + '</div>';
+				'<div class="autoName">' + name + '</div>';
 }
 
-// end partial search code attempt
+function autoHover(){
+	$('.autocomplete-items div').mouseenter(function(event){
+		console.log('hovered');
+		$(this).toggleClass('autocomplete-active');
+	});
+	$('.autocomplete-items div').mouseleave(function(event){
+		console.log('hovered');
+		$(this).toggleClass('autocomplete-active');
+	});
+	$('#autocomplete-list').mouseleave(function(event){
+		emptyContent($(this));
+	});
+}
 
-// modify this query so we can do partial search
-function q_Char(searchTerm){
+function autoClick(){
+	$('.autocomplete-items div').click(function(event){
+		let autoFillName = $(this).text();
+		console.log(autoFillName);
+		$('.searchBar').val(autoFillName);
+		emptyContent('#autocomplete-list');
+	});
+}
+// end autofill section
+
+// query section
+function q_Char(searchTerm, limit){
 	const ts = new Date().getTime();
 	return {
-		// name: searchTerm,
 		nameStartsWith: searchTerm,
-		limit: 10,
+		limit: limit,
 		ts: ts,
 		apikey: publicKey,
 		hash: md5(ts+privateKey+publicKey).toString()
 	};
 }
 
-function q_Char_Random(randomLetter){
-	const ts = new Date().getTime();
-	return {
-		nameStartsWith: randomLetter,
-		limit: 100,
-		ts: ts,
-		apikey: publicKey,
-		hash: md5(ts+privateKey+publicKey).toString()
-	};
-}
 function q_Comics(characterID){
 	const ts = new Date().getTime();
 	return {
@@ -75,7 +85,9 @@ function q_Comics(characterID){
 		hash: md5(ts+privateKey+publicKey).toString()
 	};
 }
+// end query section
 
+// html templates section
 function comic_template(comicTitle, output){
 	return '<div class="item">' + comicTitle + output + '</div>';	
 }
@@ -89,7 +101,9 @@ function character_template(characterName, output, description){
 				'</div>' + 	
 			'</div>';
 }
+// end html templates section
 
+// helper functions section
 function reveal(eventListener){
 	$(eventListener).css('display', 'block');
 }
@@ -128,18 +142,21 @@ function clearAllContent(){
 	emptyContent('.carousel-inner');
 	emptyContent('.carousel-indicators');
 }
+// end helper functions section
 
 function randomChar(){
-  	var randomLetter = "";
-  	var possible = "abcdefghijklmnopqrstuvwxyz";
+  	let randomLetter = "";
+  	const possible = "abcdefghijklmnopqrstuvwxyz";
 	randomLetter += possible.charAt(Math.floor(Math.random() * possible.length));
   	return randomLetter;
 }
 
+// button handlers section
 function submitButton(){
 	$('#submitButton').on('click', function(event){
     	event.preventDefault();
     	let searchTerm = $('.searchBar').val();
+    	limit = 1;
     	if(searchTerm === "" || searchTerm === null){
     		sharedShowAll();
     		conceal('#instructions');
@@ -150,7 +167,7 @@ function submitButton(){
     	}
     	else{
     		$('.searchBar').val("");
-    		getAPIData_Characters(searchTerm, displayAPIData_Chars);
+    		getAPIData_Characters(searchTerm, limit, displayAPIData_Chars);
     		sharedShowAll();
     		conceal('#instructions');
     		$('.searchForm').hide();	
@@ -162,7 +179,8 @@ function submitButtonRandom(){
 	$('#submitButtonRandom').on('click', function(event){
     	event.preventDefault();
     	let randomLetter = randomChar();
-    	getAPIData_Characters_Random(randomLetter, displayAPIData_Chars_Random);
+    	let limit = 100;
+    	getAPIData_Characters_Random(randomLetter, limit, displayAPIData_Chars_Random);
     	sharedShowAll();
     	conceal('#instructions');
     	$('.searchForm').hide();
@@ -181,20 +199,21 @@ function newSearch(){
     	hideCarouselNav();
     	$('.searchBar').val("");
     	emptyContent('#autocomplete-list');
-
 	});
 }
+// end button handlers section
 
-function getAPIData_Characters(searchTerm, callback){
+// API requests and data handlers section
+function getAPIData_Characters(searchTerm, limit, callback){
 	$(".loaderTop").toggleClass("hidden");
-	$.getJSON(MARVEL_API_URL_CHARS, q_Char(searchTerm), callback, function(json){
+	$.getJSON(MARVEL_API_URL_CHARS, q_Char(searchTerm, limit), callback, function(json){
 		$(".loaderTop").toggleClass("hidden");
 	});
 }
 
-function getAPIData_Characters_Random(randomLetter, callback){
+function getAPIData_Characters_Random(searchTerm, limit, callback){
 	$(".loaderTop").toggleClass("hidden");
-	$.getJSON(MARVEL_API_URL_CHARS, q_Char_Random(randomLetter), callback, function(json){
+	$.getJSON(MARVEL_API_URL_CHARS, q_Char(searchTerm, 100), callback, function(json){
 		$(".loaderTop").toggleClass("hidden");
 	});
 }
@@ -236,7 +255,7 @@ function displayAPIData_Chars(data){
 
 function displayAPIData_Chars_Random(data){
 	let randomCharacterArray = data.data.results;
-	var randomCharacter = randomCharacterArray[Math.floor(Math.random()*randomCharacterArray.length)];
+	let randomCharacter = randomCharacterArray[Math.floor(Math.random()*randomCharacterArray.length)];
 	characterName = randomCharacter.name;
 	let description = randomCharacter.description;
 	let imgPath = randomCharacter.thumbnail.path + '/standard_xlarge.' + randomCharacter.thumbnail.extension;
@@ -298,6 +317,8 @@ function displayAPIData_Comics(data){
 	$('.loaderBottom').toggleClass('hidden');
 	reveal('#newSearchButton');
 }
+// end API requests and data handlers section
+
 
 function start(){
 	autoCompleteSearch();
