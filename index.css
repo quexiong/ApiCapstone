@@ -235,7 +235,6 @@ h2 {
 	height: 25%;
 	font-size: 18px;
 	margin: 0 auto;
-	/*background-color: #f0141e;*/
 	opacity: .975;
 	color: #ffffff;
 	text-align: center;
@@ -254,7 +253,6 @@ h2 {
 .autocomplete-active {
 	background-color: #f0141e !important;
 	color: #ffffff;
-	/*cursor: pointer;*/
 }
 
 /************************Loading Animation*************************/
