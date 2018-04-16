@@ -77,6 +77,9 @@ footer {
 	height: 25%;
 	font-size: 20px;
 	margin: 4px auto;
+	margin-bottom: 0;
+	border: none;
+	padding: 0;
 	background-color: #f0141e;
 	opacity: .875;
 	color: #ffffff;
@@ -194,6 +197,52 @@ h2 {
   height: 20px;
 }
 
+/************************Autocomplete Form*************************/
+.autocomplete {
+	position: relative;
+	display: inline-block;
+}
+
+#autocomplete-list {
+	width: 50%;
+	height: 25%;
+	font-size: 16px;
+	margin: 0 auto;
+	background-color: #f0141e;
+	opacity: .875;
+	color: #ffffff;
+	text-align: center; 
+}
+
+.autocomplete-items {
+	border-bottom: none;
+	border-top: none;
+	z-index: 99;
+	top: 100%;
+	left: 0;
+	right: 0;
+	width: 100%;
+	height: 25%;
+	font-size: 18px;
+	margin: 0 auto;
+	background-color: #f0141e;
+	opacity: .875;
+	color: #ffffff;
+	text-align: center;
+}
+
+.autocomplete-items div {
+	/*padding: 10px;*/
+	cursor: pointer;
+	/*background-color: #ffffff;*/
+	/*border-bottom: 1px solid black;*/
+}
+
+.autocomplete-active {
+	background-color: DodgerBlue !important;
+	color: #ffffff;
+}
+
 /************************Loading Animation*************************/
 
 .loaderTop, .loaderBottom {
@@ -300,7 +349,8 @@ h2 {
 	}
 
 	.searchBar {
-		font-size: 16px;
+		font-size: 18px;
+		width: 100%;
 	}
 
 	#instructions, #nothingError, .errorMessage {
@@ -322,5 +372,14 @@ h2 {
 
 	h4 {
 		font-size: 16px;
+	}
+
+	#autocomplete-list {
+		width: 100%;
+	}
+
+	.autocomplete-items {
+		font-size: 13px;
+		width: 100%;
 	}
 }

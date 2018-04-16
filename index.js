@@ -7,11 +7,48 @@ const publicKey = '700e41e58c0d4aafcbacc21d5c434f5c';
 
 let characterID = "";
 let characterName = "";
+let marvelCharactersArray = [];
 
+// start partial search code attempt
+function autoCompleteSearch(){
+	$('.searchBar').keyup(function(event){
+		event.preventDefault();
+		let searchTerm = $('.searchBar').val();
+		console.log(searchTerm);
+		keyUp_APIData_Characters(searchTerm, autocompleteNames);
+		emptyContent('#autocomplete-list');
+	});
+}
+
+function keyUp_APIData_Characters(searchTerm, callback){
+	$.getJSON(MARVEL_API_URL_CHARS, q_Char(searchTerm), callback);
+}
+
+function autocompleteNames(data){
+	let autoCharacterArray = data.data.results;
+	console.log(autoCharacterArray);
+	$('.autocompleteContainer').append('<div id="autocomplete-list"></div>');
+	for(let i = 0; i < autoCharacterArray.length; i++){
+		let autoCharacterName = autoCharacterArray[i].name;
+		console.log(autoCharacterName);
+		$('#autocomplete-list').append(auto_template(autoCharacterName));
+	}
+}
+
+function auto_template(autoCharacterName){
+	return '<div class="autocomplete-items">' +
+				'<div>' + autoCharacterName + '</div>';
+}
+
+// end partial search code attempt
+
+// modify this query so we can do partial search
 function q_Char(searchTerm){
 	const ts = new Date().getTime();
 	return {
-		name: `${searchTerm}`,
+		// name: searchTerm,
+		nameStartsWith: searchTerm,
+		limit: 10,
 		ts: ts,
 		apikey: publicKey,
 		hash: md5(ts+privateKey+publicKey).toString()
@@ -40,7 +77,7 @@ function q_Comics(characterID){
 }
 
 function comic_template(comicTitle, output){
-	return '<div class="item">' + comicTitle + output + '</div>'	
+	return '<div class="item">' + comicTitle + output + '</div>';	
 }
 
 function character_template(characterName, output, description){
@@ -102,18 +139,18 @@ function randomChar(){
 function submitButton(){
 	$('#submitButton').on('click', function(event){
     	event.preventDefault();
-    	let query = $('.searchBar').val();
-    	if(query === "" || query === null){
+    	let searchTerm = $('.searchBar').val();
+    	if(searchTerm === "" || searchTerm === null){
     		sharedShowAll();
     		conceal('#instructions');
     		$('.searchForm').hide();
-    		let emptyError = '<div class="errorMessage">ERROR! Your search for NOTHING returned NOTHING! Press New Search to search again</div>'
+    		let emptyError = '<div class="errorMessage">ERROR! Your search for NOTHING returned NOTHING! Press New Search to search again</div>';
     		$('.characterContainer').append(emptyError);
     		reveal('#newSearchButton');
     	}
     	else{
     		$('.searchBar').val("");
-    		getAPIData_Characters(query, displayAPIData_Chars);
+    		getAPIData_Characters(searchTerm, displayAPIData_Chars);
     		sharedShowAll();
     		conceal('#instructions');
     		$('.searchForm').hide();	
@@ -142,6 +179,9 @@ function newSearch(){
     	$('.characterContainer').append('<div class="loaderTop hidden"></div>');
     	clearAllContent();
     	hideCarouselNav();
+    	$('.searchBar').val("");
+    	emptyContent('#autocomplete-list');
+
 	});
 }
 
@@ -161,7 +201,7 @@ function getAPIData_Characters_Random(randomLetter, callback){
 
 function getAPIData_Comics(characterID, callback){
 	$(".loaderBottom").toggleClass("hidden");
-	$(".loaderTop").toggleClass("hidden")
+	$(".loaderTop").toggleClass("hidden");
 	$.getJSON(MARVEL_API_URL_COMICS, q_Comics(characterID), callback, function(json){
 		$(".loaderBottom").toggleClass("hidden");
 	});
@@ -215,7 +255,7 @@ function displayAPIData_Chars_Random(data){
 
 function displayAPIData_Comics(data){
 	let comicArray = data.data.results;
-	let noComics = "Marvel does not provide comic book data for this character."
+	let noComics = "Marvel does not provide comic book data for this character.";
 
 	function comic_display(characterName, array){
 	let character = characterName;
@@ -232,7 +272,7 @@ function displayAPIData_Comics(data){
 				let comicCover = comicArray[i].thumbnail.path + '/standard_xlarge.' + comicArray[i].thumbnail.extension;
 				let link = comicArray[i].urls[0].url; 
 				let output = '<a href="' + link + '" target="_blank"> <img class="coverImg" src="' + comicCover + '" alt="Comic book cover"></a>';
-				let indicators = '<li data-target="#myCarousel" data-slide-to="' + i + '" class=""></li>'
+				let indicators = '<li data-target="#myCarousel" data-slide-to="' + i + '" class=""></li>';
 					if(comicDescription === "" || comicDescription === null){
 						$('.carousel-inner').append(comic_template(comicTitle, output));
 					}
@@ -260,6 +300,7 @@ function displayAPIData_Comics(data){
 }
 
 function start(){
+	autoCompleteSearch();
 	submitButton();
 	submitButtonRandom();
 	newSearch();
