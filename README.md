@@ -20,7 +20,7 @@ Display of search results
 ![display results](images/display_results.jpg)
 
 Comic page on Marvel Website
-![Marvel website](images/marvel_website)
+![Marvel website](images/marvel_website.jpg)
 
 ## API
 - Marvel API
