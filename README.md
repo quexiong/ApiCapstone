@@ -32,6 +32,13 @@ Comic page on Marvel Website
 - jQuery
 - Bootstrap
 
+## Cross Browser Compatibility/Responsiveness
+- Google Chrome
+- Mozilla Firefox
+- Microsoft Edge
+- Safari
+- Responsive on tablet and mobile devices
+
 ## Web App Created By
 Quentin Xiong
 
