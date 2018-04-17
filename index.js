@@ -179,8 +179,8 @@ function submitButtonRandom(){
 	$('#submitButtonRandom').on('click', function(event){
     	event.preventDefault();
     	let randomLetter = randomChar();
-    	let limit = 100;
-    	getAPIData_Characters_Random(randomLetter, limit, displayAPIData_Chars_Random);
+    	limit = 100;
+    	getAPIData_Characters(randomLetter, limit, displayAPIData_Chars_Random);
     	sharedShowAll();
     	conceal('#instructions');
     	$('.searchForm').hide();
@@ -207,13 +207,6 @@ function newSearch(){
 function getAPIData_Characters(searchTerm, limit, callback){
 	$(".loaderTop").toggleClass("hidden");
 	$.getJSON(MARVEL_API_URL_CHARS, q_Char(searchTerm, limit), callback, function(json){
-		$(".loaderTop").toggleClass("hidden");
-	});
-}
-
-function getAPIData_Characters_Random(searchTerm, limit, callback){
-	$(".loaderTop").toggleClass("hidden");
-	$.getJSON(MARVEL_API_URL_CHARS, q_Char(searchTerm, 100), callback, function(json){
 		$(".loaderTop").toggleClass("hidden");
 	});
 }
