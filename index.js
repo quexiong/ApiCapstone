@@ -93,7 +93,7 @@ function comic_template(comicTitle, output){
 }
 
 function character_template(characterName, output, description){
-	return '<div class="row">' +
+	return '<div class="characterResult row">' +
 				'<div class="characterName"><h2>' + characterName + '</h2></div>' +
 				'<div class="row">' +
 					'<div class="characterImg col-3">' + output + '</div>' +
@@ -137,7 +137,6 @@ function sharedConcealAll(){
 }
 
 function clearAllContent(){
-	emptyContent('.characterContainer');
 	emptyContent('.comicsContainer');
 	emptyContent('.carousel-inner');
 	emptyContent('.carousel-indicators');
@@ -193,8 +192,9 @@ function newSearch(){
 		$('.searchForm').show();
     	$('body').css('background-image', 'url("http://data.1freewallpapers.com/download/avengers.jpg")');
     	reveal('#instructions');
-    	sharedConcealAll();
+    	emptyContent('.characterContainer');
     	$('.characterContainer').append('<div class="loaderTop hidden"></div>');
+    	sharedConcealAll();
     	clearAllContent();
     	hideCarouselNav();
     	$('.searchBar').val("");
